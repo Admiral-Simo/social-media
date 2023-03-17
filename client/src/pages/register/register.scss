@@ -5,6 +5,11 @@
   justify-content: center;
   align-items: center;
 
+  .text-red-500 {
+    font-weight: bold;
+    color: red;
+  }
+
   .card {
     width: 50%;
     display: flex;

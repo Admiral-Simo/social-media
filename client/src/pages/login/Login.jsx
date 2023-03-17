@@ -1,18 +1,12 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
+import { useLoginMutation } from "../../redux/api/apiSlice";
 import "./login.scss";
+import useLogin from "./useLogin";
 
 const Login = () => {
-  const { login } = useContext(AuthContext);
-
-  const navigate = useNavigate();
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-    login();
-    navigate("/");
-  };
+  const { handleLogin, handleChange, err } = useLogin();
 
   return (
     <div className="login">
@@ -33,8 +27,19 @@ const Login = () => {
         <div className="right">
           <h1>Login</h1>
           <form onSubmit={handleLogin}>
-            <input type="text" placeholder="Username" />
-            <input type="password" placeholder="Password" />
+            <input
+              onChange={handleChange}
+              name="username"
+              type="text"
+              placeholder="Username"
+            />
+            <input
+              onChange={handleChange}
+              name="password"
+              type="password"
+              placeholder="Password"
+            />
+            {err && err}
             <button>Login</button>
           </form>
         </div>

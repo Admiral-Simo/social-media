@@ -40,7 +40,7 @@ const login = (req, res) => {
 
     const token = jwt.sign({ id: data[0].id }, "strongpassword123");
 
-    const { incomingPassword, ...others } = data[0];
+    const { password: incomingPassword, ...others } = data[0];
 
     res
       .cookie("acessToken", token, {
@@ -51,10 +51,13 @@ const login = (req, res) => {
   });
 };
 const logout = (req, res) => {
-  res.clearCookie("acessToken", {
-    secure: true,
-    sameSite: "none",
-  }).status(200).json("User has been logged out.");
+  res
+    .clearCookie("acessToken", {
+      secure: true,
+      sameSite: "none",
+    })
+    .status(200)
+    .json("User has been logged out.");
 };
 
 export { register, login, logout };
