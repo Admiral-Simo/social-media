@@ -43,7 +43,7 @@ const login = (req, res) => {
     const { password: incomingPassword, ...others } = data[0];
 
     res
-      .cookie("acessToken", token, {
+      .cookie("accessToken", token, {
         httpOnly: true,
       })
       .status(200)
@@ -52,7 +52,7 @@ const login = (req, res) => {
 };
 const logout = (req, res) => {
   res
-    .clearCookie("acessToken", {
+    .clearCookie("accessToken", {
       secure: true,
       sameSite: "none",
     })

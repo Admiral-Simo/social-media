@@ -7,8 +7,9 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { Link } from "react-router-dom";
 import Comments from "../comments/Comments";
 import { useState } from "react";
+import moment from 'moment'
 
-const Post = ({ id, name, userId, profilePic, desc, img }) => {
+const Post = ({ id, name, userid, profilePic,createdAt,  desc, img }) => {
   const [commentOpen, setCommentOpen] = useState(false);
   // TEMPORARY
   const liked = false;
@@ -21,12 +22,12 @@ const Post = ({ id, name, userId, profilePic, desc, img }) => {
             <img src={profilePic} alt="" />
             <div className="details">
               <Link
-                to={`/profile/${userId}`}
+                to={`/profile/${userid}`}
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 <span className="name">{name}</span>
               </Link>
-              <span className="date">1 min ago</span>
+              <span className="date">{createdAt ? moment(createdAt).fromNow(): "unknown"}</span>
             </div>
           </div>
           <MoreHorizIcon />
