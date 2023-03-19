@@ -27,7 +27,6 @@ const useLogin = () => {
       let error;
       if (resp?.error?.data) error = resp?.error?.data;
       if (!error) {
-        console.log("test");
         setCurrentUser(resp.data);
         navigate("/");
       } else {

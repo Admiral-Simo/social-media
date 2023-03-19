@@ -6,7 +6,7 @@ export const socialApi = createApi({
     baseUrl: "http://localhost:5000/api/",
     credentials: "include",
   }),
-  tagTypes: ["Posts"],
+  tagTypes: ["Posts", "Comments", "Likes"],
   endpoints: (builder) => ({
     register: builder.mutation({
       query: (input) => ({
@@ -41,6 +41,30 @@ export const socialApi = createApi({
       }),
       invalidatesTags: ["Posts"],
     }),
+    getComments: builder.query({
+      query: (postId) => `/comments?postId=${postId}`,
+      providesTags: ["Comments"],
+    }),
+    addComment: builder.mutation({
+      query: (data) => ({
+        url: `/comments`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Comments"],
+    }),
+    getLikes: builder.query({
+      query: (postId) => `/likes?postId=${postId}`,
+      providesTags: ["Likes"],
+    }),
+    toggleLike: builder.mutation({
+      query: (data) => ({
+        url: `/likes`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Likes"],
+    }),
   }),
 });
 
@@ -50,6 +74,10 @@ export const {
   useRegisterMutation,
   useLoginMutation,
   useGetPostsQuery,
+  useGetCommentsQuery,
   useAddPostMutation,
-  useUploadImageMutation
+  useUploadImageMutation,
+  useAddCommentMutation,
+  useGetLikesQuery,
+  useToggleLikeMutation
 } = socialApi;

@@ -5,8 +5,6 @@ import "./posts.scss";
 const Posts = () => {
   const { isLoading, error, data: posts } = useGetPostsQuery();
 
-  error && console.log(error);
-
   return (
     <div className="posts">
       {error

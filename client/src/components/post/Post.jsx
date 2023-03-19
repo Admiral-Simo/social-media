@@ -6,13 +6,29 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { Link } from "react-router-dom";
 import Comments from "../comments/Comments";
-import { useState } from "react";
-import moment from 'moment'
+import { useContext, useState } from "react";
+import moment from "moment";
+import {
+  useGetLikesQuery,
+  useToggleLikeMutation,
+} from "../../redux/api/apiSlice";
+import { AuthContext } from "../../context/authContext";
 
-const Post = ({ id, name, userid, profilePic,createdAt,  desc, img }) => {
+const Post = ({ id, name, userid, profilePic, createdAt, desc, img }) => {
+  const { currentUser } = useContext(AuthContext);
+
   const [commentOpen, setCommentOpen] = useState(false);
-  // TEMPORARY
-  const liked = false;
+
+  const [toggleLike] = useToggleLikeMutation();
+  const { data: likes } = useGetLikesQuery(id);
+
+  let liked = likes?.includes(currentUser.id);
+
+  const likeAmount = likes?.length || 0;
+
+  const handleToggleLike = () => {
+    toggleLike({ postId: id });
+  };
 
   return (
     <div className="post">
@@ -27,7 +43,9 @@ const Post = ({ id, name, userid, profilePic,createdAt,  desc, img }) => {
               >
                 <span className="name">{name}</span>
               </Link>
-              <span className="date">{createdAt ? moment(createdAt).fromNow(): "unknown"}</span>
+              <span className="date">
+                {createdAt ? moment(createdAt).fromNow() : "unknown"}
+              </span>
             </div>
           </div>
           <MoreHorizIcon />
@@ -37,9 +55,13 @@ const Post = ({ id, name, userid, profilePic,createdAt,  desc, img }) => {
           <img src={img} alt="" />
         </div>
         <div className="info">
-          <div className="item">
-            {liked ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
-            12 Likes
+          <div className="item" onClick={handleToggleLike}>
+            {liked ? (
+              <FavoriteOutlinedIcon style={{ color: "#e6438f" }} />
+            ) : (
+              <FavoriteBorderOutlinedIcon />
+            )}
+            {likeAmount} Likes
           </div>
           <div className="item" onClick={() => setCommentOpen((prev) => !prev)}>
             <TextsmsOutlinedIcon />
@@ -50,7 +72,7 @@ const Post = ({ id, name, userid, profilePic,createdAt,  desc, img }) => {
             Share
           </div>
         </div>
-        {commentOpen && <Comments />}
+        {commentOpen && <Comments postId={id} />}
       </div>
     </div>
   );

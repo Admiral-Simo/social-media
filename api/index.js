@@ -36,7 +36,6 @@ app.use(cookieParser());
 
 app.post("/api/upload", upload.single("file"), (req, res) => {
   const file = req.file;
-  console.log(file);
   res.status(200).json(`http://localhost:5000/images/${file.filename}`);
 });
 
