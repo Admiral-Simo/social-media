@@ -14,15 +14,21 @@ import Courses from "../../assets/12.png";
 import Fund from "../../assets/13.png";
 import { useContext } from "react";
 import { AuthContext } from "../../context/authContext";
+import { useNavigate } from "react-router-dom";
 
 const LeftBar = () => {
   const { currentUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   return (
     <div className="leftBar">
       <div className="container">
         <div className="menu">
-          <div className="user">
+          <div
+            className="user"
+            style={{ cursor: "pointer" }}
+            onClick={() => navigate(`/profile/${currentUser.id}`)}
+          >
             <img src={currentUser.profilePic} alt="" />
             <span>{currentUser.name}</span>
           </div>

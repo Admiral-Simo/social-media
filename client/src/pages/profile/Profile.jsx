@@ -9,62 +9,103 @@ import LanguageIcon from "@mui/icons-material/Language";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Posts from "../../components/posts/Posts";
+import {
+  useGetPostsQuery,
+  useGetRelationshipsQuery,
+  useGetUserQuery,
+  useToggleRelationshipMutation,
+} from "../../redux/api/apiSlice";
+import { useLocation } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../context/authContext";
+import Update from "../../components/update/Update";
+import useToggle from "../../hooks/useToggle";
 
 const Profile = () => {
+  const [openUpdate, toggleOpenUpdate] = useToggle(false)
+
+  const userId = parseInt(useLocation().pathname.split("/").slice(-1)[0]);
+
+  const [toggleFollow] = useToggleRelationshipMutation();
+
+  const { currentUser } = useContext(AuthContext);
+
+  const { data, isLoading, error } = useGetUserQuery(userId);
+
+  console.log(data)
+
+  const { isLoading: rIsLoading, data: relationships } =
+    useGetRelationshipsQuery(userId);
+
+  console.log(relationships);
+
+  const handleFollow = () => {
+    toggleFollow({ userId }).then((res) => console.log(res));
+  };
+
   return (
     <div className="profile">
-      <div className="images">
-        <img
-          src="https://images.pexels.com/photos/13440765/pexels-photo-13440765.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-          alt=""
-          className="cover"
-        />
-        <img
-          src="https://images.pexels.com/photos/14028501/pexels-photo-14028501.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load"
-          alt=""
-          className="profilePic"
-        />
-      </div>
-      <div className="profileContainer">
-        <div className="uInfo">
-          <div className="left">
-            <a href="http://facebook.com">
-              <FacebookTwoToneIcon fontSize="large" />
-            </a>
-            <a href="http://instagram.com">
-              <InstagramIcon fontSize="large" />
-            </a>
-            <a href="http://twitter.com">
-              <TwitterIcon fontSize="large" />
-            </a>
-            <a href="http://linkedin.com">
-              <LinkedInIcon fontSize="large" />
-            </a>
-            <a href="http://pinterest.com">
-              <PinterestIcon fontSize="large" />
-            </a>
+      {isLoading ? (
+        "loading"
+      ) : (
+        <>
+          <div className="images">
+            <img src={data?.coverPic} alt="" className="cover" />
+            <img src={data?.profilePic} alt="" className="profilePic" />
           </div>
-          <div className="center">
-            <span>Jane Doe</span>
-            <div className="info">
-              <div className="item">
-                <PlaceIcon />
-                <span>Morocco</span>
+          <div className="profileContainer">
+            <div className="uInfo">
+              <div className="left">
+                <a href="http://facebook.com">
+                  <FacebookTwoToneIcon fontSize="large" />
+                </a>
+                <a href="http://instagram.com">
+                  <InstagramIcon fontSize="large" />
+                </a>
+                <a href="http://twitter.com">
+                  <TwitterIcon fontSize="large" />
+                </a>
+                <a href="http://linkedin.com">
+                  <LinkedInIcon fontSize="large" />
+                </a>
+                <a href="http://pinterest.com">
+                  <PinterestIcon fontSize="large" />
+                </a>
               </div>
-              <div className="item">
-                <LanguageIcon />
-                <span>social-media</span>
+              <div className="center">
+                <span>{data?.name}</span>
+                <div className="info">
+                  <div className="item">
+                    <PlaceIcon />
+                    <span>{data?.city}</span>
+                  </div>
+                  <div className="item">
+                    <LanguageIcon />
+                    <span>{data?.website}</span>
+                  </div>
+                </div>
+                {rIsLoading ? (
+                  "loading"
+                ) : userId === currentUser.id ? (
+                  <button onClick={toggleOpenUpdate}>update</button>
+                ) : (
+                  <button onClick={handleFollow}>
+                    {relationships?.includes(currentUser.id)
+                      ? "Following"
+                      : "Follow"}
+                  </button>
+                )}
+              </div>
+              <div className="right">
+                <EmailOutlinedIcon />
+                <MoreVertIcon />
               </div>
             </div>
-            <button>follow</button>
+            <Posts userId={userId} />
           </div>
-          <div className="right">
-            <EmailOutlinedIcon />
-            <MoreVertIcon />
-          </div>
-        </div>
-      <Posts />
-      </div>
+        </>
+      )}
+      {openUpdate && <Update toggleOpenUpdate={toggleOpenUpdate} {...data} />}
     </div>
   );
 };

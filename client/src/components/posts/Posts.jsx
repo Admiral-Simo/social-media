@@ -2,8 +2,8 @@ import { useGetPostsQuery } from "../../redux/api/apiSlice";
 import Post from "../post/Post";
 import "./posts.scss";
 
-const Posts = () => {
-  const { isLoading, error, data: posts } = useGetPostsQuery();
+const Posts = ({userId}) => {
+  const { isLoading, error, data: posts } = useGetPostsQuery(userId);
 
   return (
     <div className="posts">

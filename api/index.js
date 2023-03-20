@@ -8,6 +8,7 @@ import postRoutes from "./routes/posts.js";
 import likeRoutes from "./routes/likes.js";
 import commentRoutes from "./routes/comments.js";
 import authRoutes from "./routes/auth.js";
+import relationRoutes from './routes/relationships.js'
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -43,6 +44,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/likes", likeRoutes);
+app.use("/api/relationships", relationRoutes);
 app.use("/api/comments", commentRoutes);
 
 app.listen(5000, () => {

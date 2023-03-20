@@ -6,7 +6,7 @@ export const socialApi = createApi({
     baseUrl: "http://localhost:5000/api/",
     credentials: "include",
   }),
-  tagTypes: ["Posts", "Comments", "Likes"],
+  tagTypes: ["Posts", "Comments", "Likes", "Users"],
   endpoints: (builder) => ({
     register: builder.mutation({
       query: (input) => ({
@@ -22,6 +22,23 @@ export const socialApi = createApi({
         body: input,
       }),
     }),
+    getUser: builder.query({
+      query: (userId) => `/users/find/${userId}`,
+      providesTags: ["Users"],
+    }),
+    updateUser: builder.mutation({
+      query: (input) => ({
+        url: `/users`,
+        method: "PUT",
+        body: input,
+      }),
+      invalidatesTags: ["Users", "Posts"],
+    }),
+    getRelationships: builder.query({
+      query: (followedUserId) =>
+        `/relationships?followedUserId=${followedUserId}`,
+      providesTags: ["Users"],
+    }),
     uploadImage: builder.mutation({
       query: (input) => ({
         url: `/upload`,
@@ -30,7 +47,7 @@ export const socialApi = createApi({
       }),
     }),
     getPosts: builder.query({
-      query: () => `/posts`,
+      query: (userId) => `/posts${userId ? "?userId=" + userId : ""}`,
       providesTags: ["Posts"],
     }),
     addPost: builder.mutation({
@@ -65,6 +82,14 @@ export const socialApi = createApi({
       }),
       invalidatesTags: ["Likes"],
     }),
+    toggleRelationship: builder.mutation({
+      query: (data) => ({
+        url: `/relationships`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Users"],
+    }),
   }),
 });
 
@@ -75,9 +100,13 @@ export const {
   useLoginMutation,
   useGetPostsQuery,
   useGetCommentsQuery,
+  useGetRelationshipsQuery,
   useAddPostMutation,
+  useUpdateUserMutation,
   useUploadImageMutation,
+  useGetUserQuery,
   useAddCommentMutation,
   useGetLikesQuery,
-  useToggleLikeMutation
+  useToggleRelationshipMutation,
+  useToggleLikeMutation,
 } = socialApi;
