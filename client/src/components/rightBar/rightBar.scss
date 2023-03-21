@@ -10,6 +10,9 @@
     background-color: themed("bgSoft");
     color: themed("textColor");
 
+    // Temporary
+    display: none;
+
     @include mobile {
       display: none;
     }

@@ -15,7 +15,6 @@ const Share = () => {
   const [file, setFile] = useState(null);
   const [desc, setDesc] = useState("");
 
-
   const upload = async () => {
     try {
       const formData = new FormData();
@@ -35,9 +34,10 @@ const Share = () => {
       if (file) {
         imgUrl = await upload();
       }
-      addPost({ desc, img: imgUrl });
-      setFile(null);
-      setDesc('');
+      addPost({ desc, img: imgUrl }).then(() => {
+        setFile(null);
+        setDesc("");
+      });
     }
   };
 
@@ -51,6 +51,7 @@ const Share = () => {
               type="text"
               placeholder={`What's on your mind ${currentUser.name}?`}
               onChange={(e) => setDesc(e.target.value)}
+              value={desc}
             />
           </div>
           <div className="right">

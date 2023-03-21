@@ -4,6 +4,7 @@ import {
   useUpdateUserMutation,
   useUploadImageMutation,
 } from "../../redux/api/apiSlice";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import "./update.scss";
 
 const Update = ({
@@ -70,31 +71,70 @@ const Update = ({
 
   return (
     <div className="update">
-      Update
-      <form onSubmit={handleSubmit}>
-        <input type="file" onChange={(e) => setProfile(e.target.files[0])} />
-        <input type="file" onChange={(e) => setCover(e.target.files[0])} />
-        <input
-          type="text"
-          name="name"
-          value={texts.name}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="city"
-          value={texts.city}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="website"
-          value={texts.website}
-          onChange={handleChange}
-        />
-        <button>Update</button>
-      </form>
-      <button onClick={toggleOpenUpdate}>X</button>
+      <div className="wrapper">
+        <h1>Update Your Profile</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="files">
+            <label htmlFor="cover">
+              <span>Cover Picture</span>
+              <div className="imgContainer">
+                <img
+                  src={cover ? URL.createObjectURL(cover) : coverPic}
+                  alt=""
+                />
+                <CloudUploadIcon className="icon" />
+              </div>
+            </label>
+            <input
+              type="file"
+              id="cover"
+              style={{ display: "none" }}
+              onChange={(e) => setCover(e.target.files[0])}
+            />
+            <label htmlFor="profile">
+              <span>Profile Picture</span>
+              <div className="imgContainer">
+                <img
+                  src={profile ? URL.createObjectURL(profile) : profilePic}
+                  alt=""
+                />
+                <CloudUploadIcon className="icon" />
+              </div>
+            </label>
+            <input
+              type="file"
+              id="profile"
+              style={{ display: "none" }}
+              onChange={(e) => setProfile(e.target.files[0])}
+            />
+          </div>
+          <label>Name</label>
+          <input
+            type="text"
+            value={texts.name}
+            name="name"
+            onChange={handleChange}
+          />
+          <label>Country / City</label>
+          <input
+            type="text"
+            name="city"
+            value={texts.city}
+            onChange={handleChange}
+          />
+          <label>Website</label>
+          <input
+            type="text"
+            name="website"
+            value={texts.website}
+            onChange={handleChange}
+          />
+          <button>Update</button>
+        </form>
+        <button className="close" onClick={toggleOpenUpdate}>
+          close
+        </button>
+      </div>
     </div>
   );
 };

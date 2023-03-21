@@ -58,6 +58,14 @@ export const socialApi = createApi({
       }),
       invalidatesTags: ["Posts"],
     }),
+    deletePost: builder.mutation({
+      query: (data) => ({
+        url: `/posts`,
+        method: "DELETE",
+        body: data,
+      }),
+      invalidatesTags: ["Posts"],
+    }),
     getComments: builder.query({
       query: (postId) => `/comments?postId=${postId}`,
       providesTags: ["Comments"],
@@ -102,6 +110,7 @@ export const {
   useGetCommentsQuery,
   useGetRelationshipsQuery,
   useAddPostMutation,
+  useDeletePostMutation,
   useUpdateUserMutation,
   useUploadImageMutation,
   useGetUserQuery,

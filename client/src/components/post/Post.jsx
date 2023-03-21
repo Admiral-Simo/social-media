@@ -9,17 +9,21 @@ import Comments from "../comments/Comments";
 import { useContext, useState } from "react";
 import moment from "moment";
 import {
+  useDeletePostMutation,
   useGetLikesQuery,
   useToggleLikeMutation,
 } from "../../redux/api/apiSlice";
+import useToggle from "../../hooks/useToggle";
 import { AuthContext } from "../../context/authContext";
 
 const Post = ({ id, name, userid, profilePic, createdAt, desc, img }) => {
   const { currentUser } = useContext(AuthContext);
 
   const [commentOpen, setCommentOpen] = useState(false);
+  const [menuOpen, toggleMenuOpen] = useToggle(false);
 
   const [toggleLike] = useToggleLikeMutation();
+  const [deletePost] = useDeletePostMutation();
   const { data: likes } = useGetLikesQuery(id);
 
   let liked = likes?.includes(currentUser.id);
@@ -28,6 +32,10 @@ const Post = ({ id, name, userid, profilePic, createdAt, desc, img }) => {
 
   const handleToggleLike = () => {
     toggleLike({ postId: id });
+  };
+
+  const handleDelete = () => {
+    deletePost({ postId: id });
   };
 
   return (
@@ -48,7 +56,13 @@ const Post = ({ id, name, userid, profilePic, createdAt, desc, img }) => {
               </span>
             </div>
           </div>
-          <MoreHorizIcon />
+          <MoreHorizIcon
+            onClick={toggleMenuOpen}
+            style={{ cursor: "pointer" }}
+          />
+          {menuOpen && userid === currentUser.id && (
+            <button onClick={handleDelete}>delete</button>
+          )}
         </div>
         <div className="content">
           <p>{desc}</p>
