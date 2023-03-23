@@ -47,7 +47,14 @@ export const socialApi = createApi({
       }),
     }),
     getPosts: builder.query({
-      query: (userId) => `/posts${userId ? "?userId=" + userId : ""}`,
+      query: ({ userId, searchInput }) =>
+        `/posts${userId ? "?userId=" + userId : ""}${
+          searchInput
+            ? userId
+              ? "&searchInput=" + searchInput
+              : "?searchInput=" + searchInput
+            : ""
+        }`,
       providesTags: ["Posts"],
     }),
     addPost: builder.mutation({

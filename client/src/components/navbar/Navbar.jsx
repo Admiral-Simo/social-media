@@ -11,11 +11,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { AuthContext } from "../../context/authContext";
+import { useDispatch, useSelector } from "react-redux";
+import { selectSearch, setSearch } from "../../redux/features/searchSlice";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { toggle, darkMode } = useContext(DarkModeContext);
   const { currentUser } = useContext(AuthContext);
+
+  const dispatch = useDispatch();
+
+  const searchInput = useSelector(selectSearch);
+
   return (
     <div className="navbar">
       <div className="left">
@@ -33,7 +40,12 @@ const Navbar = () => {
         <GridViewOutlinedIcon />
         <div className="search">
           <SearchOutlinedIcon />
-          <input type="text" placeholder="Search..." />
+          <input
+            value={searchInput}
+            onChange={(e) => dispatch(setSearch(e.target.value))}
+            type="text"
+            placeholder="Search..."
+          />
         </div>
       </div>
       <div className="right">
