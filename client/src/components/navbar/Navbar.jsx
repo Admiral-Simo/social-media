@@ -8,20 +8,25 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { AuthContext } from "../../context/authContext";
-import { useDispatch, useSelector } from "react-redux";
-import { selectSearch, setSearch } from "../../redux/features/searchSlice";
+import { useDispatch } from "react-redux";
+import { setSearch } from "../../redux/features/searchSlice";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { toggle, darkMode } = useContext(DarkModeContext);
   const { currentUser } = useContext(AuthContext);
 
+  const [searchInput, setSearchInput] = useState("");
+
   const dispatch = useDispatch();
 
-  const searchInput = useSelector(selectSearch);
+  const handleSearch = (e) => {
+    e.preventDefault();
+    dispatch(setSearch(searchInput));
+  };
 
   return (
     <div className="navbar">
@@ -38,15 +43,21 @@ const Navbar = () => {
         )}
 
         <GridViewOutlinedIcon />
-        <div className="search">
-          <SearchOutlinedIcon />
+        <form onSubmit={handleSearch} className="search">
           <input
             value={searchInput}
-            onChange={(e) => dispatch(setSearch(e.target.value))}
+            onChange={(e) => setSearchInput(e.target.value)}
             type="text"
+            className="ml-2"
             placeholder="Search..."
           />
-        </div>
+          <button
+            type="submit"
+            className="cursor-pointer hover:text-yellow-400"
+          >
+            <SearchOutlinedIcon />
+          </button>
+        </form>
       </div>
       <div className="right">
         <PersonOutlinedIcon />

@@ -10,7 +10,6 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Posts from "../../components/posts/Posts";
 import {
-  useGetPostsQuery,
   useGetRelationshipsQuery,
   useGetUserQuery,
   useToggleRelationshipMutation,
@@ -22,7 +21,7 @@ import Update from "../../components/update/Update";
 import useToggle from "../../hooks/useToggle";
 
 const Profile = () => {
-  const [openUpdate, toggleOpenUpdate] = useToggle(false)
+  const [openUpdate, toggleOpenUpdate] = useToggle(false);
 
   const userId = parseInt(useLocation().pathname.split("/").slice(-1)[0]);
 
@@ -32,7 +31,7 @@ const Profile = () => {
 
   const { data, isLoading, error } = useGetUserQuery(userId);
 
-  console.log(data)
+  console.log(data);
 
   const { isLoading: rIsLoading, data: relationships } =
     useGetRelationshipsQuery(userId);
@@ -45,7 +44,9 @@ const Profile = () => {
 
   return (
     <div className="profile">
-      {isLoading ? (
+      {error ? (
+        "error"
+      ) : isLoading ? (
         "loading"
       ) : (
         <>

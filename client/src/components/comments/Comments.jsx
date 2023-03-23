@@ -32,7 +32,7 @@ const Comments = ({ postId }) => {
         />
         <button onClick={handleClick}>Send</button>
       </div>
-      {isLoading
+      {error ? "error" : isLoading
         ? "loading"
         : comments?.map((comment) => (
             <div key={comment.id} className="comment">

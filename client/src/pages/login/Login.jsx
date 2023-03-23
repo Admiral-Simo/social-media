@@ -1,7 +1,4 @@
-import { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/authContext";
-import { useLoginMutation } from "../../redux/api/apiSlice";
+import { Link } from "react-router-dom";
 import "./login.scss";
 import useLogin from "./useLogin";
 
