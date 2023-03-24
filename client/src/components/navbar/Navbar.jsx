@@ -34,15 +34,14 @@ const Navbar = () => {
         <Link to="/" style={{ textDecoration: "none" }}>
           <span>Sociazen-Media</span>
         </Link>
-        <HomeOutlinedIcon />
 
         {darkMode ? (
-          <WbSunnyOutlinedIcon onClick={toggle} />
+          <WbSunnyOutlinedIcon className="icon" onClick={toggle} />
         ) : (
-          <DarkModeOutlinedIcon onClick={toggle} />
+          <DarkModeOutlinedIcon className="icon" onClick={toggle} />
         )}
-
-        <GridViewOutlinedIcon />
+      </div>
+      <div className="center">
         <form onSubmit={handleSearch} className="search">
           <input
             value={searchInput}
@@ -55,14 +54,14 @@ const Navbar = () => {
             type="submit"
             className="cursor-pointer hover:text-yellow-400"
           >
-            <SearchOutlinedIcon />
+            <SearchOutlinedIcon className="icon" />
           </button>
         </form>
       </div>
       <div className="right">
-        <PersonOutlinedIcon />
-        <EmailOutlinedIcon />
-        <NotificationsOutlinedIcon />
+        <PersonOutlinedIcon className="icon" />
+        <EmailOutlinedIcon className="icon" />
+        <NotificationsOutlinedIcon className="icon" />
         <div
           className="user"
           style={{ cursor: "pointer" }}

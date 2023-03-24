@@ -26,11 +26,6 @@ export const updateUser = (req, res) => {
 
   const { name, city, website, coverPic, profilePic } = req.body;
 
-  console.log("name", name);
-  console.log("city", city);
-  console.log("website", website);
-  console.log("coverPic", coverPic);
-  console.log("profilePic", profilePic);
 
   jwt.verify(token, "strongpassword123", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid");

@@ -86,3 +86,46 @@ export const deletePost = (req, res) => {
     });
   });
 };
+
+export const updatePost = (req, res) => {
+  const token = req.cookies.accessToken;
+  if (!token) return res.status(401).json("Not logged in!");
+
+  const { title, img, id } = req.body;
+
+  console.log(title, img);
+
+  jwt.verify(token, "strongpassword123", (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid");
+    const q = "UPDATE posts SET `desc`=?, `img`=? WHERE userid = ? && id = ?";
+    const q2 =
+      "UPDATE posts SET isEdited = isEdited + 1 WHERE id = ? AND userid = ?";
+    const values = [title, img, userInfo.id, id];
+    db.query(q, values, (err, data) => {
+      if (err) return res.status(500).json(err);
+      return res.status(200).json("Post has been Updated");
+    });
+    db.query(q2, [id, userInfo.id], (err, data) => {
+      if (err) throw err;
+    });
+  });
+};
+
+export const editedCount = (req, res) => {
+  const token = req.cookies.accessToken;
+  if (!token) return res.status(401).json("Not logged in!");
+
+  const { id } = req.params;
+
+  jwt.verify(token, "strongpassword123", (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid");
+    const q = "SELECT isEdited FROM posts WHERE id = ?";
+
+    const values = [id];
+    db.query(q, values, (err, data) => {
+      if (err) return res.status(500).json(err);
+
+      return res.status(200).json(data[0]?.isEdited);
+    });
+  });
+};

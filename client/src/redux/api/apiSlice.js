@@ -73,8 +73,24 @@ export const socialApi = createApi({
       }),
       invalidatesTags: ["Posts"],
     }),
+    updatePost: builder.mutation({
+      query: (data) => ({
+        url: `/posts`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Posts"],
+    }),
+    countPostEdits: builder.query({
+      query: (id) => `/posts/isEdited/${id}`,
+      providesTags: ["Posts"],
+    }),
     getComments: builder.query({
       query: (postId) => `/comments?postId=${postId}`,
+      providesTags: ["Comments"],
+    }),
+    getCommenters: builder.query({
+      query: (postId) => `/comments/commenters?postId=${postId}`,
       providesTags: ["Comments"],
     }),
     addComment: builder.mutation({
@@ -84,6 +100,26 @@ export const socialApi = createApi({
         body: data,
       }),
       invalidatesTags: ["Comments"],
+    }),
+    deleteComment: builder.mutation({
+      query: (data) => ({
+        url: `/comments`,
+        method: "DELETE",
+        body: data,
+      }),
+      invalidatesTags: ["Comments"],
+    }),
+    updateComment: builder.mutation({
+      query: (data) => ({
+        url: `/comments`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Comments"],
+    }),
+    countCommentEdits: builder.query({
+      query: (id) => `/comments/isEdited/${id}`,
+      providesTags: ["Comments"],
     }),
     getLikes: builder.query({
       query: (postId) => `/likes?postId=${postId}`,
@@ -114,9 +150,15 @@ export const {
   useRegisterMutation,
   useLoginMutation,
   useGetPostsQuery,
+  useCountPostEditsQuery,
+  useCountCommentEditsQuery,
   useGetCommentsQuery,
+  useGetCommentersQuery,
+  useDeleteCommentMutation,
+  useUpdateCommentMutation,
   useGetRelationshipsQuery,
   useAddPostMutation,
+  useUpdatePostMutation,
   useDeletePostMutation,
   useUpdateUserMutation,
   useUploadImageMutation,

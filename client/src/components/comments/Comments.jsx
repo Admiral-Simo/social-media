@@ -5,16 +5,17 @@ import {
   useAddCommentMutation,
   useGetCommentsQuery,
 } from "../../redux/api/apiSlice";
-import moment from "moment";
+import Comment from "./Comment";
 
 const Comments = ({ postId }) => {
   const [addComment] = useAddCommentMutation();
   const { currentUser } = useContext(AuthContext);
   const [commentInput, setCommentInput] = useState("");
-  //Temporary
+
   const { data: comments, isLoading, error } = useGetCommentsQuery(postId);
 
-  const handleClick = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (commentInput) {
       addComment({ desc: commentInput, postId });
       setCommentInput("");
@@ -23,29 +24,21 @@ const Comments = ({ postId }) => {
 
   return (
     <div className="comments">
-      <div className="write">
+      <form onSubmit={handleSubmit} className="write">
         <img src={currentUser.profilePic} alt="" />
         <input
           onChange={(e) => setCommentInput(e.target.value)}
+          value={commentInput}
           type="text"
           placeholder="write a comment"
         />
-        <button onClick={handleClick}>Send</button>
-      </div>
-      {error ? "error" : isLoading
+        <button>Send</button>
+      </form>
+      {error
+        ? "error"
+        : isLoading
         ? "loading"
-        : comments?.map((comment) => (
-            <div key={comment.id} className="comment">
-              <img src={comment.profilePic} alt="" />
-              <div className="info">
-                <span>{comment.name}</span>
-                <span>{comment.desc}</span>
-              </div>
-              <span className="date">
-                {moment(comment.createdAt).fromNow()}
-              </span>
-            </div>
-          ))}
+        : comments?.map((comment) => <Comment key={comment.id} {...comment} />)}
     </div>
   );
 };

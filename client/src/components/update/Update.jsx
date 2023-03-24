@@ -39,8 +39,6 @@ const Update = ({
     }
   };
 
-  console.log(texts);
-
   const handleChange = (e) => {
     setTexts((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
