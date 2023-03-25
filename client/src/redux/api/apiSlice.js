@@ -6,7 +6,7 @@ export const socialApi = createApi({
     baseUrl: "http://localhost:5000/api/",
     credentials: "include",
   }),
-  tagTypes: ["Posts", "Comments", "Likes", "Users"],
+  tagTypes: ["Posts", "Comments", "Likes", "Users", "Stories"],
   endpoints: (builder) => ({
     register: builder.mutation({
       query: (input) => ({
@@ -33,6 +33,18 @@ export const socialApi = createApi({
         body: input,
       }),
       invalidatesTags: ["Users", "Posts"],
+    }),
+    getStories: builder.query({
+      query: () => `/stories/`,
+      providesTags: ["Stories"],
+    }),
+    addStory: builder.mutation({
+      query: (data) => ({
+        url: `/stories/`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Stories"],
     }),
     getRelationships: builder.query({
       query: (followedUserId) =>
@@ -150,10 +162,12 @@ export const {
   useRegisterMutation,
   useLoginMutation,
   useGetPostsQuery,
+  useGetStoriesQuery,
   useCountPostEditsQuery,
   useCountCommentEditsQuery,
   useGetCommentsQuery,
   useGetCommentersQuery,
+  useAddStoryMutation,
   useDeleteCommentMutation,
   useUpdateCommentMutation,
   useGetRelationshipsQuery,

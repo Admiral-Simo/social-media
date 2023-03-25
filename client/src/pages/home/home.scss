@@ -5,6 +5,7 @@
     background-color: themed("bgSoft");
     color: themed("textColor");
     min-height: 100vh;
+
     padding: 20px 70px;
     @include mobile {
       padding: 10px;
