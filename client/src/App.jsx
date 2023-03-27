@@ -15,6 +15,7 @@ import {
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/authContext";
+import Friends from "./components/friends/Friends";
 
 const Layout = () => {
   const { darkMode } = useContext(DarkModeContext);
@@ -60,6 +61,10 @@ function App() {
         {
           path: "/profile/:id",
           element: <Profile />,
+        },
+        {
+          path: "/friends",
+          element: <Friends />,
         },
       ],
     },

@@ -1,0 +1,9 @@
+@import "../../global.scss";
+
+.friends {
+  @include themify($themes) {
+    min-height: 100vh;
+    background-color: themed("bgSoft");
+    color: themed("textColor");
+  }
+}

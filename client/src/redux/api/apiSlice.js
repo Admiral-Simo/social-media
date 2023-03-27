@@ -26,6 +26,10 @@ export const socialApi = createApi({
       query: (userId) => `/users/find/${userId}`,
       providesTags: ["Users"],
     }),
+    getFollowedUser: builder.query({
+      query: () => `/users/followed`,
+      providesTags: ["Users"],
+    }),
     updateUser: builder.mutation({
       query: (input) => ({
         url: `/users`,
@@ -164,6 +168,7 @@ export const {
   useGetPostsQuery,
   useGetStoriesQuery,
   useCountPostEditsQuery,
+  useGetFollowedUserQuery,
   useCountCommentEditsQuery,
   useGetCommentsQuery,
   useGetCommentersQuery,

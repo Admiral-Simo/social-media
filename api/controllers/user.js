@@ -26,7 +26,6 @@ export const updateUser = (req, res) => {
 
   const { name, city, website, coverPic, profilePic } = req.body;
 
-
   jwt.verify(token, "strongpassword123", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid");
     const q =
@@ -37,9 +36,25 @@ export const updateUser = (req, res) => {
       [name, city, website, profilePic, coverPic, userInfo.id],
       (err, data) => {
         if (err) return res.status(500).json(err);
-        if (data.affedctedRows > 0) return res.json("Updated!")
-        return res.status(403).json("You can update only your profile")
+        if (data.affedctedRows > 0) return res.json("Updated!");
+        return res.status(403).json("You can update only your profile");
       }
     );
+  });
+};
+
+export const getFollowedUsers = (req, res) => {
+  const token = req.cookies.accessToken;
+  if (!token) return res.status(401).json("Not logged in!");
+
+  jwt.verify(token, "strongpassword123", (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid");
+    const q =
+      "SELECT u.name, u.id, u.profilePic FROM users AS u JOIN relationships AS r ON (r.followerUserId = ? and r.followedUserId = u.id)";
+
+    db.query(q, [userInfo.id], (err, data) => {
+      if (err) return res.status(500).json(err);
+      return res.status(200).json(data);
+    });
   });
 };

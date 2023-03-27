@@ -32,7 +32,7 @@ const LeftBar = () => {
             <img src={currentUser.profilePic} alt="" />
             <span>{currentUser.name}</span>
           </div>
-          <div className="item">
+          <div className="item" onClick={() => navigate("/friends")}>
             <img src={Friends} alt="" />
             <span>Friends</span>
           </div>
