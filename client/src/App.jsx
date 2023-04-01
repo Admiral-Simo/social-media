@@ -16,6 +16,7 @@ import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/authContext";
 import Friends from "./components/friends/Friends";
+import ChatPage from "./pages/chat/ChatPage";
 
 const Layout = () => {
   const { darkMode } = useContext(DarkModeContext);
@@ -75,6 +76,10 @@ function App() {
     {
       path: "/register",
       element: <Register />,
+    },
+    {
+      path: "/chat",
+      element: <ChatPage />,
     },
   ]);
 

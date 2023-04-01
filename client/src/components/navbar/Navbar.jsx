@@ -60,7 +60,7 @@ const Navbar = () => {
       </div>
       <div className="right">
         <PersonOutlinedIcon className="icon" />
-        <EmailOutlinedIcon className="icon" />
+        <EmailOutlinedIcon className="icon" onClick={() => navigate("/chat")} />
         <NotificationsOutlinedIcon className="icon" />
         <div
           className="user"

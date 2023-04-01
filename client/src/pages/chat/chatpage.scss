@@ -1,0 +1,19 @@
+@import "../../global.scss";
+
+.chat {
+  @include themify($themes) {
+    color: themed("textColor");
+    height: calc(100vh - 71px);
+    background-color: themed("bgSoft");
+    .side1 {
+      border-right: 1px solid themed("border");
+      background-color: themed("bg");
+      flex: 3;
+    }
+    .side2 {
+      border-left: 1px solid themed("border");
+      background-color: themed("bg");
+      flex: 3;
+    }
+  }
+}
