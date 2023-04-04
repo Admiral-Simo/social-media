@@ -15,7 +15,7 @@ import {
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/authContext";
-import Friends from "./components/friends/Friends";
+import Friends from "./pages/friends/Friends";
 import ChatPage from "./pages/chat/ChatPage";
 
 const Layout = () => {

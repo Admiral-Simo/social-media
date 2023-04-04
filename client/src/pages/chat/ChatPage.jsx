@@ -2,7 +2,7 @@ import "./chatpage.scss";
 import React, { useContext } from "react";
 import ChatBody from "../../components/chat/ChatBody";
 import ChatFiles from "../../components/chat/ChatFiles";
-import ChatFriends from "../../components/chat/ChatFriends";
+import ChatFriends from "../../components/chat/ChatFriends/ChatFriends";
 import Navbar from "../../components/navbar/Navbar";
 import { DarkModeContext } from "../../context/darkModeContext";
 
