@@ -15,5 +15,10 @@
       background-color: themed("bg");
       flex: 3;
     }
+    .chatBody {
+      input {
+        background-color: themed("input");
+      }
+    }
   }
 }
