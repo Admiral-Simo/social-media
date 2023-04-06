@@ -6,7 +6,7 @@ export const socialApi = createApi({
     baseUrl: "http://localhost:5000/api/",
     credentials: "include",
   }),
-  tagTypes: ["Posts", "Comments", "Likes", "Users", "Stories"],
+  tagTypes: ["Posts", "Comments", "Likes", "Users", "Stories", "Chat"],
   endpoints: (builder) => ({
     register: builder.mutation({
       query: (input) => ({
@@ -25,6 +25,10 @@ export const socialApi = createApi({
     getUser: builder.query({
       query: (userId) => `/users/find/${userId}`,
       providesTags: ["Users"],
+    }),
+    getMessages: builder.query({
+      query: (receiverid) => `/messages/${receiverid}`,
+      providesTags: ["Chat"],
     }),
     getFollowedUser: builder.query({
       query: () => `/users/followed`,
@@ -165,6 +169,7 @@ export const socialApi = createApi({
 export const {
   useRegisterMutation,
   useLoginMutation,
+  useGetMessagesQuery,
   useGetPostsQuery,
   useGetStoriesQuery,
   useCountPostEditsQuery,

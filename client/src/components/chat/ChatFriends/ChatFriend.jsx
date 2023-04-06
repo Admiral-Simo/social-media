@@ -15,7 +15,7 @@ const ChatFriend = ({ id, profilePic, name }) => {
         src={profilePic}
         alt="profile_picture"
       />
-      <div className="flex flex-col items-start justify-between">
+      <div className="flex-col items-start justify-between hidden lg:flex">
         <p className="text-2xl text-center capitalize">{name}</p>
         <p className="text-xs font-thin text-center capitalize">
           last message: Hello There!

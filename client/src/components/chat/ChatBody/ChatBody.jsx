@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { selectCurrentUser } from "../../redux/features/currentChatUserSlice";
+import { selectCurrentUser } from "../../../redux/features/currentChatUserSlice";
 import { useSelector } from "react-redux";
+import ScrollToBottom from "react-scroll-to-bottom";
 import SendIcon from "@mui/icons-material/Send";
 import io from "socket.io-client";
+import { useGetMessagesQuery } from "../../../redux/api/apiSlice";
+import Message from "./Message";
 
 const socket = io.connect("http://localhost:4000", {
   withCredentials: true,
@@ -10,7 +13,10 @@ const socket = io.connect("http://localhost:4000", {
 
 const ChatBody = () => {
   const currentUser = useSelector(selectCurrentUser);
-  const [connected, setConnected] = useState(false);
+
+  const { data } = useGetMessagesQuery(currentUser.id);
+
+  const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
 
   const sendMessage = () => {
@@ -21,11 +27,10 @@ const ChatBody = () => {
   };
 
   useEffect(() => {
-    socket.on("connect", () => {
-      setConnected(true);
-    });
-  }, []);
-  if (!connected) {
+    setMessages(data);
+  }, [data]);
+
+  if (!socket.connected) {
     return (
       <div className="flex-[10] h-full p-3 flex justify-center items-center">
         <div className="flex flex-col items-center justify-center">
@@ -55,6 +60,7 @@ const ChatBody = () => {
   }
   return (
     <div className="flex-[10] h-full relative chatBody">
+      {/* // user information */}
       <div className="flex items-center w-full gap-6 p-2 shadow">
         <img
           className="w-16 h-16 rounded-full"
@@ -64,10 +70,18 @@ const ChatBody = () => {
         <div className="flex flex-col items-start justify-between">
           <p className="text-2xl text-center capitalize">{currentUser.name}</p>
           <p className="text-xs font-thin text-center capitalize">
-            last message: Hello There!
+            last message: {messages?.slice(-1)[0]?.msg}!
           </p>
         </div>
       </div>
+      <ScrollToBottom>
+        <div className="flex flex-col">
+          {messages.map((item, index) => {
+            return <Message {...item} receiver />;
+          })}
+        </div>
+      </ScrollToBottom>
+      {/* // chating input*/}
       <div className="absolute bottom-0 left-0 right-0">
         <div className="flex">
           <input

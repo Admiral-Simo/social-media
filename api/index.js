@@ -11,6 +11,7 @@ import postRoutes from "./routes/posts.js";
 import likeRoutes from "./routes/likes.js";
 import commentRoutes from "./routes/comments.js";
 import authRoutes from "./routes/auth.js";
+import messageRoutes from "./routes/messages.js";
 import relationRoutes from "./routes/relationships.js";
 import storyRoutes from "./routes/stories.js";
 
@@ -51,6 +52,7 @@ app.use("/api/stories", storyRoutes);
 app.use("/api/likes", likeRoutes);
 app.use("/api/relationships", relationRoutes);
 app.use("/api/comments", commentRoutes);
+app.use("/api/messages", messageRoutes);
 
 app.listen(5000, () => {
   console.log("listening on port 5000");

@@ -1,6 +1,6 @@
 import "./chatpage.scss";
 import React, { useContext } from "react";
-import ChatBody from "../../components/chat/ChatBody";
+import ChatBody from "../../components/chat/ChatBody/ChatBody";
 import ChatFiles from "../../components/chat/ChatFiles";
 import ChatFriends from "../../components/chat/ChatFriends/ChatFriends";
 import Navbar from "../../components/navbar/Navbar";
@@ -14,7 +14,6 @@ const ChatPage = () => {
       <div className="flex chat">
         <ChatFriends />
         <ChatBody />
-        <ChatFiles />
       </div>
     </div>
   );
