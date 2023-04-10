@@ -71,7 +71,7 @@ const io = new Server(4000, {
 io.on("connection", (socket) => {
   const cookies = socket.handshake.headers.cookie;
 
-  const token = cookies.match(/(?<==).*/)[0];
+  const token = cookies?.match(/(?<==).*/)[0];
   if (!token) return 0;
 
   jwt.verify(token, "strongpassword123", (err, userInfo) => {

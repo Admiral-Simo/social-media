@@ -59,7 +59,7 @@ const ChatBody = () => {
     );
   }
   return (
-    <div className="flex-[10] h-full relative chatBody">
+    <div className="flex-[10] h-full flex flex-col chatBody">
       {/* // user information */}
       <div className="flex items-center w-full gap-6 p-2 shadow">
         <img
@@ -74,15 +74,15 @@ const ChatBody = () => {
           </p>
         </div>
       </div>
-      <ScrollToBottom>
-        <div className="flex flex-col">
+      <ScrollToBottom className="flex-1">
+        <div className="flex flex-col h-full gap-3 p-2 overflow-scroll">
           {messages.map((item, index) => {
             return <Message {...item} receiver />;
           })}
         </div>
       </ScrollToBottom>
       {/* // chating input*/}
-      <div className="absolute bottom-0 left-0 right-0">
+      <div className="w-full h-[10%]">
         <div className="flex">
           <input
             type="text"

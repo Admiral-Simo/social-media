@@ -12,10 +12,10 @@ export const getMessages = (req, res) => {
     const q = `SELECT m.id,senderid, u.id as userid, receiverid,msg, createdAt,name,profilePic
     FROM messages as m
     JOIN users as u ON m.senderid = u.id
-    WHERE senderid = ? AND receiverid = ?;`;
-    db.query(q, [userInfo.id, receiverid], (err, data) => {
+    WHERE senderid = ? AND receiverid = ? OR senderid = ? AND receiverid = ?;`;
+    db.query(q, [userInfo.id, receiverid, receiverid, userInfo.id], (err, data) => {
       if (err) throw err;
-      return res.json(data);
+      return res.json([...data, ...data]);
     });
   });
 };
