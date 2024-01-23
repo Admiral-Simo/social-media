@@ -6,12 +6,10 @@ import {
   useUpdatePostMutation,
   useUploadImageMutation,
 } from "../../redux/api/apiSlice";
-import { useNavigate } from "react-router-dom";
 
 const UpdatePost = ({
   id,
   name,
-  userid,
   profilePic,
   createdAt,
   desc,
